@@ -1,0 +1,13 @@
+[tools]
+node = "24"
+pnpm = "12.18.0"
+[tasks.test]
+run = "pnpm test"
+[tasks.check]
+run = "pnpm run check"
+[tasks.preview]
+run = "pnpm run preview"
+[tasks.install]
+run = "pnpm run install:layout"
+[tasks.update]
+run = "pnpm run install:layout --update"
