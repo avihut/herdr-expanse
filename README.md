@@ -210,6 +210,8 @@ There are no third-party runtime or test dependencies. `daft.yml` is tracked and
 
 The test suite verifies all three full flight wins, swept collision, costs, rejection boundaries, undo, all 999 relay seeds, loss conditions, score selection, finite depth-sorted 3D geometry, host parser branches, complete installed imports, collision refusal, symlink refusal, staged swaps, rollback and retained recovery files.
 
+Live macOS QA completed both first-stage games, all six patches and the guarded progress reset, interactive 3D controls, light/dark terminal readability, native menus, and an initially unfocused pane target. The prior window state was restored with no runtime errors.
+
 Native checking covers both appearances, the five room lists in empty/populated states, long synthetic names, all menu targets, optional rename present/absent, game win/loss views and a battery-present footer. These fixtures do **not** replace live geometry, click or real hardware validation. See [VALIDATION](docs/VALIDATION.md) for the current observed results and limitations.
 
 ## Research, credits and neighbors

@@ -16,7 +16,7 @@ export function row(id,title,detail,action,active=false,state){const c=colors();
 export function open(role,extra={}){const z=Number(settings().zoom)||1,v=window.viewport_size();return openOverlay({mod:'expanse',kind:'dialog',frame:'none',width:Math.min(760*z,v.width*.94),height:Math.min(700*z,v.height*.92),props:{role,...extra}});}
 export function menu(kind,target={}){return openOverlay({mod:'expanse',kind:'popup',frame:'none',width:300*(Number(settings().zoom)||1),props:{role:'menu',kind,target}});}
 export function close(){if(props()?.overlay)closeOverlay(props().overlay);}
-export function shell(title,body){const c=colors();return root().border(1).border_color(c.accent).p(12).gap(10).child(h_flex().flex_none().gap(8).items_center().child(txt(title,15,c.accent).flex_1()).child(button('exit','CLOSE ×',close))).child(div().h(3).bg(c.strip).flex_none()).child(body.flex_1().min_h(0).min_w(0).overflow_x_scrollbar());}
+export function shell(title,body){const c=colors();return root().border(1).border_color(c.accent).p(12).gap(10).child(h_flex().flex_none().gap(8).items_center().child(txt(title,15,c.accent).flex_1()).child(button('exit','CLOSE ×',close))).child(div().h(3).bg(c.strip).flex_none()).child(body.flex_1().min_h(0).min_w(0).w_full());}
 export function award(name){const found=get('discoveries',[]);if(!found.includes(name)){put('discoveries',[...found,name]);if(get('sound',false))playSound('mods/expanse/assets/ack.mp3');}}
 export function line(points,color,width=1){return window.paint_path(PathBuilder.stroke(width).add_polygon(points,false).build(),color).absolute().inset_0();}
 export function polygon(points,color){return window.paint_path(PathBuilder.fill().add_polygon(points,true).build(),color).absolute().inset_0();}

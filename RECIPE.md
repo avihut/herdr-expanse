@@ -37,3 +37,7 @@ The native checker cannot prove geometry or later interactions. Light chrome mus
 Pure rules pass complete wins, losses, invalid actions, exact resource and undo tests; all 999 relay seeds solve. Geometry is finite and depth sorted. Telemetry parser fixtures cover failure, missing hardware and power states. Isolated installation preserves unrelated state, refuses unsafe paths and collisions, validates imports, and recovers from injected failures.
 
 Native checks pass every role, appearance, empty/populated room, menu target, optional rename state and game outcome. Coordinated live QA verifies the real switcher and context target, both games to victory, discoveries, 3D rotation, measured telemetry, real terminal readability and restoration of the prior window state. Report what was actually observed in docs/VALIDATION.md.
+
+## Verified presentation lessons
+
+Constrain prose to the dialog width. Horizontal scrolling on the entire body prevented wrapping in live GPUI; use it only around fixed geometry rows with explicit heights. Keep the prose body vertically scrollable. The hazard glyph uses the strip foreground so its burgundy tile remains readable in light mode. Dialog pixel caps and viewport fractions are complementary; compact-window interaction still needs separate live QA.
