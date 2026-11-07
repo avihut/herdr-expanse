@@ -1,6 +1,6 @@
 import {spaces,agents,panes,machines,focused,run,setAgentOrder,window as host,exec,props,settings} from 'herdr';
 import {root,txt,button,row,section,label,status,div,svg,h_flex,v_flex,colors,open,menu,get,put,award} from './kit.js';
-import {renamedPane} from './pane-rename.js';
+import {renamedPane,paneRenameAvailable} from './pane-rename.js';
 import {parseNetwork,parseBattery} from './telemetry.js';
 export const ROOMS=['COMMAND','TACTICAL','ENGINEERING','CREW','GALLEY'];
 const name=a=>a.title||a.program?.name||a.app||a.address;
@@ -27,8 +27,8 @@ export class Tabs {
  render(){const s=spaces().find(s=>s.active),c=colors();return root().child(h_flex().size_full().items_center().gap(5).px(8).child(h_flex().flex_1().min_w(0).gap(4).overflow_x_scrollbar().children((s?.tabs??[]).map(t=>context(button('tab-'+t.id,t.index+' / '+t.name,()=>run('tab.select',{id:t.id}),t.active).max_w(220).tooltip(t.name),'tab',{id:t.id})))).child(button('launch','+ LAUNCH',()=>menu('launch',{space:s?.id}))).child(button('all-tabs','PLANS',()=>open('plans'))));}
 }
 export class Pane {
- init(p){this.p=p;}
- render(){const p=panes().find(p=>p.pane===this.p.pane),c=colors();if(!p)return root().child(txt('Console unavailable',10));return root().bg(c.panel).child(context(h_flex().size_full().gap(6).items_center().px(8).on_mouse_down('left',(_e,cx)=>cx.stop_propagation()).on_click(()=>run('pane.focus',{pane:p.pane})).child(status(p.status)).child(txt(renamedPane(p)||p.title,11).flex_1().min_w(0).truncate().tooltip(p.title)).child(txt(p.terminal??p.mod??'',9,c.muted)).child(button('pane-menu','⋯',()=>menu('pane',{pane:p.pane,terminal:p.terminal})).h(23)).child(button('pane-zoom',p.zoomed?'↙':'↗',()=>run('pane.zoom',{pane:p.pane})).h(23)),'pane',{pane:p.pane,terminal:p.terminal}));}
+ init(p,cx){this.p=p;this.rename=false;cx.spawn(async cx=>{this.rename=await paneRenameAvailable();cx.notify();});}
+ render(){const p=panes().find(p=>p.pane===this.p.pane),c=colors();if(!p)return root().child(txt('Console unavailable',10));return root().bg(c.panel).child(context(h_flex().size_full().gap(6).items_center().px(8).on_mouse_down('left',(_e,cx)=>cx.stop_propagation()).on_click(()=>run('pane.focus',{pane:p.pane})).child(status(p.status)).child(txt((this.rename?renamedPane(p):null)||p.title,11).flex_1().min_w(0).truncate().tooltip(p.title)).child(txt(p.terminal??p.mod??'',9,c.muted)).child(button('pane-menu','⋯',()=>menu('pane',{pane:p.pane,terminal:p.terminal})).h(23)).child(button('pane-zoom',p.zoomed?'↙':'↗',()=>run('pane.zoom',{pane:p.pane})).h(23)),'pane',{pane:p.pane,terminal:p.terminal}));}
 }
 export class Footer {
  init(p,cx){this.net={label:'LINK ?',detail:'Local interface status not yet sampled.'};this.battery=null;this.at='not sampled';this.busy=false;if(host().platform==='macos'){this.probe(cx);cx.timer.every(30000,cx=>this.probe(cx));}else this.net.detail='Local network and battery probes currently support macOS only.';}
