@@ -2,9 +2,9 @@
 
 ## Automated evidence
 
-- 26 tests pass: full flight-course wins, budgets, collision, undo and hints; all 999 relay seeds, loss and invalid-action boundaries; score minimum selection; 48-face geometry; network/battery parsing; eight isolated installer and failure-recovery scenarios; explicit clicked targets and optional rename capability/identity.
+- 27 tests pass: full flight-course wins, budgets, collision, undo and hints; all 999 relay seeds, loss and invalid-action boundaries; score minimum selection; 48-face geometry; network/battery parsing; eight isolated installer and failure-recovery scenarios; explicit clicked targets and optional rename capability/identity; and the shared parent/child space hierarchy (nesting, selectable parents with their own tabs, cycle, self-parent, stale-parent and cross-machine rejection, colliding local IDs across machines, empty lists).
 - Real native entry and all transitive imports pass `herdr-app check`.
-- 68 isolated native fixtures pass: light/dark, 12 roles, five rooms empty/populated, long synthetic names, explicit menu targets, optional rename, game win/loss states and a battery-present footer.
+- 73 isolated native fixtures pass: light/dark, 12 roles, five rooms empty/populated, long synthetic names, explicit menu targets, optional rename, game win/loss states and a battery-present footer, and the COMMAND / SECTORS primary hierarchy with a long-named child sector expanded and folded plus a remote machine reusing the same local ID, in both appearances.
 - Installer validates staged transitive imports, refuses collisions/symlinks, preserves unrelated configuration and unowned package-local files, installs layout last, rolls back failures and retains staging/backup files if rollback itself fails.
 
 ## Live evidence
@@ -27,6 +27,8 @@ Observed on macOS on 2026-11-07 during an exclusive, coordinated QA slot:
 Private QA captures remain local and are deliberately excluded from this repository. The published SVG previews are original synthetic illustrations, not live evidence.
 
 ## Limits
+
+Live acceptance of the COMMAND / SECTORS parent/child hierarchy is pending. It needs real clicks on the room switch, the disclosure control and the parent and child rows, in light and dark. The earlier live QA above predates the hierarchy and does not cover it. Pure tests and native fixtures pass, but they are not live acceptance.
 
 Small OS-window interaction and other operating systems were not observed. Compact-header native fixtures are not a substitute for that test. Flight courses 2–3 and relay seeds 2–999 have pure solvability tests, not live completion claims. Clipboard content transfer and the native timing of focus-then-copy/paste were not exercised against working agent prompts; command sequence and explicit-target tests pass. Rename submission and launching a new agent were not exercised. The original acknowledgment tone was not audibly verified.
 

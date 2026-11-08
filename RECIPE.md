@@ -41,3 +41,8 @@ Native checks pass every role, appearance, empty/populated room, menu target, op
 ## Verified presentation lessons
 
 Constrain prose to the dialog width. Horizontal scrolling on the entire body prevented wrapping in live GPUI; use it only around fixed geometry rows with explicit heights. Keep the prose body vertically scrollable. The hazard glyph uses the strip foreground so its burgundy tile remains readable in light mode. Dialog pixel caps and viewport fractions are complementary; compact-window interaction still needs separate live QA.
+
+
+## Primary space hierarchy
+
+Parent and child spaces appear directly in the COMMAND / SECTORS sidebar rows, using the layout’s native styling. Parents keep their own tabs and terminals and remain selectable. Expansion affects child spaces only; tabs stay in the normal tab bar. Relationships use the shared per-machine hierarchy. There is no extra hierarchy selector.

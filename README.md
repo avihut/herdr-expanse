@@ -201,7 +201,7 @@ The coffee and ship-name cards paraphrase sourced series details. The specimen, 
 | Task | Purpose |
 | --- | --- |
 | `mise run test` | Pure games, geometry, telemetry and isolated installer failure tests |
-| `mise run check` | Real transitive imports and 68 isolated native UI fixtures |
+| `mise run check` | Real transitive imports and 73 isolated native UI fixtures |
 | `mise run preview` | Regenerate original SVG showcase illustrations |
 | `mise run install` | Validate, stage and install; refuse collisions |
 | `mise run update` | Validate and explicitly replace own targets with backups |
@@ -223,3 +223,7 @@ Lore references include [SYFY’s episode notes](https://www.syfy.com/the-expans
 Original code, vectors, geometry, previews and synthesized tone: [MIT](LICENSE). Franchise names and referenced production work remain their owners’ property; see [NOTICE](NOTICE.md). Geist Mono is supplied by Herdr; no font files are redistributed.
 
 Other native worlds for the same work: [Fallout Pip-Boy](https://github.com/avihut/herdr-fallout) · [Evangelion operations](https://github.com/avihut/herdr-evangelion).
+
+## Workspace groups
+
+Parent and child spaces appear directly in the COMMAND / SECTORS sidebar rows, using the layout’s native styling. Parents keep their own tabs and terminals and remain selectable. Expansion affects child spaces only; tabs stay in the normal tab bar. Relationships use the shared per-machine hierarchy. There is no extra hierarchy selector.

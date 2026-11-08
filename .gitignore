@@ -5,3 +5,6 @@ node_modules/
 qa/
 private/
 *.error
+# Written by Herdr into installed mod folders; never source
+mods/expanse/gpui-kit.d.ts
+mods/expanse/jsconfig.json
