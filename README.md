@@ -76,7 +76,7 @@ The resizable side console scrolls its complete lists. **SECTORS** folds it away
 
 **Flight plans** are tabs. The tab strip scrolls horizontally; **PLANS** opens the complete scrollable list across workspaces. **+ LAUNCH** starts a terminal or an installed agent detected for the selected workspace’s machine. Existing Herdr keyboard shortcuts continue to work.
 
-Every console header carries its title, terminal address, target menu and zoom control. Right-click a workspace, tab, crew station or pane to act on that exact object—even when another terminal has focus. If the optional shared `pane-rename` mod advertises API version 1, the pane menu offers **Rename pane…** and headers honor its names. Without it, native titles and the other actions remain available. This package neither installs nor updates that optional dependency.
+Every console header carries its title, terminal address, target menu and zoom control. Right-click a workspace, tab, crew station or pane to act on that exact object—even when another terminal has focus. If the optional shared `pane-rename` mod advertises API version 1, the pane menu adds **Rename pane…** as its last row, so rows already drawn never move under the pointer, and headers honor its names. Without it, native titles and the other actions remain available. This package neither installs nor updates that optional dependency.
 
 ### The metaphor, with real names intact
 
