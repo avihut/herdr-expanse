@@ -10,6 +10,8 @@ For a fictional universe or historical desktop, research its actual interfaces b
 
 Identify the visual grammar: typography and hierarchy, panel geometry, information density, symbols, palette, warning states, navigation, transitions and sounds. Research details that can become useful interactions or discoverable surprises. A distinctive layout should carry this grammar through the sidebar, tabs, pane frames, context menus, dialogs, layout picker and games.
 
+Current host constraint (checked 2026-11-07): the documented pane wrapper exposes a header mod plus gap, radius, background, border and focus styling; it does not expose a gutter/background mod slot. `PaneInfo` has no measured pane bounds, and a mod's `on_size_change` measures only its own block in logical pixels. Measured per-pane header rails visually meeting native pane borders are supported; arbitrary custom paths spanning the split gutters would need a host extension. Do not invent a hook, paint outside the block, or rebuild the user's pane tree to disguise this limitation. Distinguish the achievable header/border treatment from continuous gutter rendering in previews and delivery notes.
+
 Save a concise source list and explain the design decisions in the layout's README. Separate canonical details from invented Herdr adaptations. For example, an EVA livery for Codex is an adaptation; it does not make Codex a canonical pilot. A simulated radio station is entertainment, not a real broadcast.
 
 Choose the appropriate asset method. Draw simple emblems, diagrams and interface shapes as native geometry or original SVG. Use image generation when original bitmap art would materially improve the result. Use installed or appropriately licensed fonts, keep bundled font licenses, and use clear substitutes when a reference font is unavailable. Do not replace useful text with illegible decorative lettering.
@@ -49,6 +51,20 @@ Keep prose constrained to the dialog width. In Expanse live QA, horizontal scrol
 Follow the native layout-switcher rules in `~/.config/herdr-app/CLAUDE.md`. Every layout must have a switcher inside its own bar or menu, matching the host font, shape and palette. Normally invoke `run("mod.open", { name: "layout-picker" })`; alternatively draw a native menu in the layout's own mod. Pointer menus size to their rows without a forced height.
 
 Every switcher lists `layouts()` once, hides a built-in when its personal replacement exists, uses the shared title conventions, marks `shared("layout")`, and switches through `layout.switch`. In particular, show Windows 98 rather than Win98 Dark. Keep these rules aligned with `mods/layout-picker/main.js`. Do not wrap a root or float a detached switcher over the layout. Update the switcher table in CLAUDE.md after installation.
+
+## Make scenes and lists directly manipulable
+
+These are general preferences the user stated during the StarCraft II work; they apply to every layout.
+
+**Tabs are draggable to reorder.** Reorder with `tab.move {id, index}`; the host documents the index as a 1-based position in the space. Whether settled tabs count toward it was established in SCII testing, not by the command description, so recheck it against `herdr-app commands` and real settled tabs. A press becomes a drag only after a few pixels. Draw a landing marker beside the target, cancel when the pointer leaves the strip, and never let the release that ends a drag also act as a click. Build it from `on_mouse_down`, `on_mouse_move` (delivered only while the element is hovered), `on_mouse_up` and `on_hover`; `on_drop` receives only external files. Keep the landing-position arithmetic in a pure, tested function. Live status (2026-11-08): the first XP taskbar implementation passed its unit tests but the user reported that a real drag did not work, so unit cases are not acceptance. Test a real drag in the app before calling the feature done.
+
+**Objects in an illustrated scene are selectable themselves.** A label floating over a picture is not enough. Put a hit region over each object, normalized to the artwork and scaled with the same cover transform as the backdrop, with a hover highlight. A themed room is a working surface, not an alternate view: give its objects live readouts and actions that name their targets explicitly (an attention request that focuses its agent, a space to select, a settled tab to restore, a setting to toggle). Inner controls stop propagation so they don't also trigger the object.
+
+**Rotatable 3D views orbit under the cursor.** Dragging rotates the model: yaw from horizontal movement, pitch from vertical, clamped. Releasing or leaving stops it. Keep buttons for keyboard users.
+
+**Describe animated portraits exactly.** The host animates properties, not image sequences. A few pre-rendered frames cross-faded with native opacity loops, with tempo from real status and a still frame under reduced motion, is a pre-rendered frame crossfade; never call it a real-time animated model.
+
+**Sound.** Ship only original or properly licensed audio; the person may point the layout at their own local files. `playSound` plays a one-shot clip with no stop, loop or volume control, so continuous background music per space needs a host extension. Check which audio formats the host actually plays before relying on one.
 
 ## Make light and dark usable
 
@@ -100,6 +116,8 @@ For a new mod, create `mod.json` with `"place": "none"` **before** writing `main
 For updates, stage the complete mod outside the watched `mods/` directory and replace its folder with renames. Preserve local unowned files, keep a backup, and retain recovery files if rollback fails. Prepare all dependencies before exposing the entry point; write themes and the layout after the complete mod. Validate the installed package's transitive local imports in a temporary home, not only the source tree.
 
 Repeated file-by-file hot reloads have exhausted the host's mod runtime in observed XP testing. Reinstalling, switching layouts and creating another test tab did not recover that incident; only restarting Herdr.app did. If `out of memory` or repeated `Null` errors appear, stop live installs, switches and test tabs. Record the error and coordinate recovery. Do not restart the app without the user's authorization, and never restart herdr-core as a workaround. The exact cause of a new incident still needs evidence; do not assume every OOM has the same cause.
+
+Retained child views need their own invalidation when their state changes. In the SCII arcade, an exit handler paused the simulation and detached the child through shared navigation, but its cached playing description survived re-entry. Calling the current child event context’s `notify()` before detaching restored the visible paused/Resume state. Test exit and re-entry through real UI; parent/shared rerenders alone do not prove a retained child refreshed.
 
 Keep pure game and parsing logic in separate modules so it can be tested without launching Herdr. Keep slow work in `cx.spawn`, use the callback's current context, and do not retain `cx` for later use. Guard overlapping host probes and handle failures without inventing successful results.
 
@@ -176,6 +194,9 @@ Add a brief date and explanation below for meaningful refinements. Do not keep c
 | 2026-11-07 | Verified that current terminal copy/paste commands take no target arguments and operate on focus. Documented explicit clicked-pane focus, stale-target checks and separate sequence/live validation. |
 | 2026-11-07 | Incorporated TRON live QA's dialog-sizing lesson: combine pixel caps with viewport fractions to avoid excessive empty space on ultrawide displays; small-window reachability remains a separate check. |
 | 2026-11-07 | Incorporated Expanse's dark/light live-verified wrapping fix: constrain prose width and isolate horizontal scrolling to bounded-height fixed-geometry rows instead of the entire dialog body. |
+| 2026-11-07 | Checked the current pane-decoration API limits: header mods can measure their own blocks, but no documented gutter/background mod hook or pane-bound geometry is exposed. Record that limit rather than claiming continuous gutter rendering. |
+| 2026-11-08 | Verified SCII retained-child exit/re-entry invalidation: notify the child with its current event context before detaching; cover cached display state as well as paused simulation state. |
+| 2026-11-08 | Added the user's general direct-manipulation preferences from the SCII work: drag-to-reorder tabs, selectable scene objects with explicitly targeted live actions, cursor-orbit 3D views, exact naming of pre-rendered frame crossfades, and licensed one-shot audio limits. Recorded that tab-drag unit tests did not catch a real XP drag failure. |
 
 ## Workspace grouping in every layout
 
